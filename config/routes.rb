@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
+  constraints Clearance::Constraints::SignedIn.new do
+    get '/', to: redirect('/dashboard/show')
+  end
+
+  constraints Clearance::Constraints::SignedOut.new do
+    get '/', to: 'homes#show'
+  end
+
   root to: "homes#show"
+
   resources :passwords, controller: "clearance/passwords", only: [:create, :new]
   resource :session, only: [:create]
 
